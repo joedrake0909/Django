@@ -2,7 +2,7 @@ from rest_framework import status
 from .serializers import RegisterSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
@@ -22,6 +22,9 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-
+class ProtectedView(APIView):
+    permission_classes = [IsAuthenticated]  
+    def get(self, request):
+        return Response({'message': "You accessed a protected endpoint!"})
 
 # Create your views here.
