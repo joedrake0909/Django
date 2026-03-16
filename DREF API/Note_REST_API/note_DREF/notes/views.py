@@ -3,8 +3,10 @@ from .models import Note
 from .serializers import NoteSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from rest_framework.permissions import IsAuthenticated
 
 class NoteViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
@@ -32,11 +34,13 @@ class NoteViewSet(viewsets.ModelViewSet):
             print('No content provided in validated data.')
 
     
-        serializer.save()
+        serializer.save(user=self.request.user)
 
         print("Note created successfully.")
     
-
+    def get_queryset(self):
+        return Note.objects.filter(user=self.request.user)
+    
 
     def retrieve(self, request, pk=None):
         try:
