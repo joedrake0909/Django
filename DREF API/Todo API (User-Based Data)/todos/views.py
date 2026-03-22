@@ -5,6 +5,11 @@ from django.contrib.auth.models import User
 from .serializers import UserRegistrationSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Todo
+from .serializers import TodoSerializer
+
 
 
 @api_view(['GET'])
@@ -40,3 +45,29 @@ class CustomAuthToken(ObtainAuthToken):
           }
           )
 
+class TodoListView(generics.ListAPIView):
+     serializer_class = TodoSerializer
+
+     def get_queryset(self):
+          user = self.request.user
+          return Todo.objects.filter(user=user)
+     
+
+class TodoCreateView(generics.CreateAPIView):
+     serializer_class = TodoSerializer
+
+     def perform_create(self, serializer):
+          serializer.save(user=self.request.user)
+
+
+class TodoUpdateView(generics.UpdateAPIView):
+     serializer_class = TodoSerializer
+
+     def get_queryset(self):
+          return Todo.objects.filter(user=self.request.user)
+     
+class TodoDeleteView(generics.DestroyAPIView):
+     serializer_class = TodoSerializer
+     
+     def get_queryset(self):
+          return Todo.objects.filter(user= self.request.user)

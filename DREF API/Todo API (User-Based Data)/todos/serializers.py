@@ -1,5 +1,6 @@
 from rest_framework import serializers 
 from django.contrib.auth.models import User
+from .models import Todo
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
@@ -18,3 +19,15 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         validated_data.pop('password2')
         user = User.objects.create_user(**validated_data)
         return user
+    
+class TodoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ['id', 'description', 'title', 'completed', 'created_at', 'user']
+        read_only_fields = ['user']
+
+    def validate_title(self, value):
+        if len(value) < 3:
+            raise serializers.ValidationError("Title must be at least 3 characters long.")
+        return value
+    
