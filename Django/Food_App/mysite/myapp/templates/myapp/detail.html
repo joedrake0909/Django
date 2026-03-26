@@ -11,8 +11,10 @@
             <div class="text-green-700 font-bold">${{item.item_price}}</div>
 
             <div>
-                <a class="bg-yellow-400 rounded-md text-white font-bold px-4 py-2" href="{% url 'myapp:update_item' item.id %}">Edit</a>
+                {% if item.user_name == request.user %}
+                <a  class="bg-yellow-400 rounded-md text-white font-bold px-4 py-2" href="{% url 'myapp:update_item' item.id %}">Edit</a>
                 <a class="bg-red-700 rounded-md text-white font-bold px-4 py-2" href="{% url 'myapp:delete_item' item.id %}">Delete</a>
+                {% endif %}
             </div>
         </div>
 

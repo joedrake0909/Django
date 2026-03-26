@@ -1,5 +1,25 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Save</button>
-</form>
+{% extends 'myapp/index.html' %}
+{% block content %}
+    <div class="flex flex-col justify-center items-center min-h-screen p-10">
+        <h1>Add Item Page </h1>
+        <form method="POST" class="shadow-lg space-y-10 p-10 w-100">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="bg-red-500 p-2 text-white">
+                    {% for errors in form.non_field_errors %}
+                      <p> {{errors}} </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="border">
+                <label for="">{{field.label}}</label>
+                <div>{{ field }}</div>
+            </div>
+            {% endfor %}
+            <button class="bg-blue-500 p-x-10 p-y-2 text-white w-full">Add Item</button>
+        </form>
+    </div>
+{% endblock %}

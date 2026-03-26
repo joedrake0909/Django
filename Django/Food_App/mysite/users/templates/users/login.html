@@ -1,5 +1,29 @@
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Login</button>
-</form>
+{% extends 'myapp/index.html' %}
+{% block content %}
+<div class="flex flex-col justify-center items-center min-h-screen p-10">
+    <h1>Login</h1>
+    <form method="POST" class="shadow-lg space-y-10 p-10">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="bg-red-500 p-2 text-white">
+              {% for errors in form.non_field_errors %}
+                <p> {{errors}} </p>
+              {% endfor %}
+            </div>
+        {% endif %}
+        <div>
+            <label for="">Username</label>
+            <div class="border rounder p-2">{{form.username}}</div>
+        </div>
+
+        <div>
+            <label for="">Password</label>
+            <div class="border rounder p-2">{{form.password}}</div>
+        </div>
+
+        <button class="bg-blue-500 px-2 py-2 w-full text-white">Login</button>
+
+    </form>
+</div>
+{% endblock %}
