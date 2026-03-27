@@ -9,6 +9,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Todo
 from .serializers import TodoSerializer
+from .permissions import IsOwner
 
 
 
@@ -62,12 +63,14 @@ class TodoCreateView(generics.CreateAPIView):
 
 class TodoUpdateView(generics.UpdateAPIView):
      serializer_class = TodoSerializer
+     permission_classes = [IsOwner]
 
      def get_queryset(self):
           return Todo.objects.filter(user=self.request.user)
      
 class TodoDeleteView(generics.DestroyAPIView):
      serializer_class = TodoSerializer
+     permission_classes = [IsOwner]
      
      def get_queryset(self):
           return Todo.objects.filter(user= self.request.user)
