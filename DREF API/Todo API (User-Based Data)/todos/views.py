@@ -51,7 +51,8 @@ class TodoListView(generics.ListAPIView):
 
      def get_queryset(self):
           user = self.request.user
-          return Todo.objects.filter(user=user)
+          return Todo.objects.filter(user=user)\
+               .select_related('user')
      
 
 class TodoCreateView(generics.CreateAPIView):

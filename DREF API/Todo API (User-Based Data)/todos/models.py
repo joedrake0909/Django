@@ -7,10 +7,14 @@ class Todo(models.Model):
     description = models.TextField(max_length=100, blank=True)
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='todos')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='todos', db_index=True)
 
     def __str__(self):
         return self.title
+    
+
+    class Meta:
+        ordering = ['-created_at']
     
 
 
