@@ -19,7 +19,15 @@ class TransactionListCreateAPIView(ListCreateAPIView):
             else:
                 queryset = queryset.none()
 
+        category_param = self.request.query_params.get('category')
+        if category_param:
+            if category_param.isdigit():
+                queryset = queryset.filter(category_id=category_param)
+            else:
+                queryset = queryset.filter(category__name__iexact=category_param)
+            
         return queryset
+
     
 
 class CategoryModelViewSet(ModelViewSet):
