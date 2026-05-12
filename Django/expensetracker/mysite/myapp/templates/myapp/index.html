@@ -1,0 +1,25 @@
+{% extends 'myapp/base.html' %}
+{% block body %}
+    <h2>Expense Page</h2>
+    <form action="" method="POST">
+        <h2>Add Expense</h2>
+
+        {% csrf_token %}
+
+        <div>
+            <label for="">Expense Name</label>
+            {{expense_form.name}}
+        </div>
+
+        <div>
+            <label for="">Expense Amount</label>
+            {{expense_form.amount}}
+        </div>
+
+        <div>
+            <label for="">Expense Category</label>
+            {{expense_form.category}}
+        </div>
+
+    </form>
+{% endblock %}
