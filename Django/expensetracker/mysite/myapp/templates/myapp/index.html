@@ -1,6 +1,14 @@
 {% extends 'myapp/base.html' %}
 {% block body %}
+{% load humanize %}
     <h2>Expense Page</h2>
+
+    <div>
+        <p>Yearly Expense:{{yearly_sum | intcomma}} </p>
+        <p>Monthly Expense:{{monthly_sum | intcomma}} </p>
+        <p>Weekly Expense:{{weekly_sum | intcomma}} </p>
+    </div>
+
     <form action="" method="POST">
         
         {% csrf_token %}
@@ -44,7 +52,7 @@
                 <td>{{expense.date}}</td>
                 <td>{{expense.name}}</td>
                 <td>{{expense.category}}</td>
-                <td>{{expense.amount}}</td>
+                <td>{{expense.amount | intcomma}}</td>
                 <td>
                     <a href="{% url 'edit' expense.id %}">Modify</a>
                 </td>
@@ -60,7 +68,60 @@
 
             </tr>
             {% endfor %}
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Total Expenses</td>
+                <td>{{total_expenses | intcomma}}</td>
+            </tr>
+
+        
+
         </tbody>
+
+    </table>
+
+    <table>
+        <h2>Daily Expenses</h2>
+
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Sum</th>
+            </tr> 
+        </thead>
+
+        <tbody>
+            {% for entry in daily_sum %}
+            <tr>
+                <td>{{entry.date}}</td>
+                <td>{{entry.sum | intcomma}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table>
+        <h2>category Expenses</h2>
+
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Sum</th>
+            </tr> 
+        </thead>
+
+        <tbody>
+            {% for entry in categorical_sum %}
+            <tr>
+                <td>{{entry.category}}</td>
+                <td>{{entry.sum | intcomma}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+
 
     </table>
 
