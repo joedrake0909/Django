@@ -35,13 +35,13 @@ def index(request):
     print('weekly_sum', weekly_sum)
 
     # Logic to get daily expense
-    daily_sum = Expense.objects.filter().values('date').order_by('date').annotate(sum=Sum('amount'))
-    print('daily_sum', daily_sum)
+    daily_sums = Expense.objects.filter().values('date').order_by('date').annotate(sum=Sum('amount'))
+    print('daily_sums', daily_sums)
 
     # logic to get category sum
-    categorical_sum = Expense.objects.filter().values('category').annotate(sum=Sum('amount'))
+    categorical_sums = Expense.objects.filter().values('category').annotate(sum=Sum('amount'))
 
-    return render(request, 'myapp/index.html', {'expense_form': expense_form, 'expenses': expenses, 'total_expenses': total_expenses, 'yearly_sum': yearly_sum, 'monthly_sum': monthly_sum, 'weekly_sum': weekly_sum, 'daily_sum': daily_sum, 'categorical_sum': categorical_sum})
+    return render(request, 'myapp/dark-modern-index.html', {'expense_form': expense_form, 'expenses': expenses, 'total_expenses': total_expenses, 'yearly_sum': yearly_sum, 'monthly_sum': monthly_sum, 'weekly_sum': weekly_sum, 'daily_sums': daily_sums, 'categorical_sums': categorical_sums})
 
 
 def edit(request, id):
@@ -53,7 +53,7 @@ def edit(request, id):
         if form.is_valid():
             form.save()
             return redirect('index')
-    return render(request, 'myapp/edit.html', {'expense_form': expense_form})
+    return render(request, 'myapp/modern-edit.html', {'expense_form': expense_form})
 
 def delete(request, id):
     expense = Expense.objects.get(id=id)
